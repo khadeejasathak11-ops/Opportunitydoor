@@ -1021,6 +1021,46 @@ footer {
     cursor: pointer;
 }
 
+.auth-mode-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 18px 0 8px;
+}
+
+.auth-mode {
+    min-height: 43px;
+    border: 3px solid #fff;
+    border-radius: 12px;
+    background: #eee8f8;
+    color: #665493;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #cbbde1;
+}
+
+.auth-mode.active {
+    background: #dfeef1;
+    color: #58758a;
+}
+
+.auth-hidden {
+    display: none !important;
+}
+
+.auth-message {
+    min-height: 20px;
+    margin-top: 10px;
+    color: #58758a;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.auth-message.error {
+    color: #a54f73;
+}
+
 @media (max-width: 750px) {
     nav {
         flex-wrap: wrap;

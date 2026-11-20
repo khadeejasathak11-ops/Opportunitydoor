@@ -367,69 +367,160 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    const SUPABASE_URL = "https://mdnwrpjqkrehmbhnerzo.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_KWb4ipX4C_WUSee-z7BARA_HUAGAvub";
+
     const profileModal = document.getElementById("profile-modal");
     const openProfileButton = document.getElementById("open-profile");
     const profileForm = document.getElementById("profile-form");
     const profileName = document.getElementById("profile-name");
+    const profileEmail = document.getElementById("profile-email");
+    const profilePassword = document.getElementById("profile-password");
     const profileGrade = document.getElementById("profile-grade");
     const profileInterest = document.getElementById("profile-interest");
     const profileReset = document.getElementById("profile-reset");
     const profileTitle = document.getElementById("profile-title");
+    const authMessage = document.getElementById("auth-message");
+    const profileSubmit = document.querySelector(".profile-submit");
 
-    function getProfile() {
-        try {
-            return JSON.parse(localStorage.getItem("opportunityDoorProfile") || "null");
-        } catch (error) {
-            return null;
-        }
+    let supabase = null;
+    let authMode = "signup";
+    let currentUser = null;
+    let currentProfile = null;
+
+    function setAuthMessage(message, isError) {
+        if (!authMessage) return;
+        authMessage.textContent = message || "";
+        authMessage.classList.toggle("error", Boolean(isError));
+    }
+
+    function setAuthMode(mode) {
+        authMode = mode;
+        document.querySelectorAll("[data-auth-mode]").forEach(function (button) {
+            button.classList.toggle("active", button.dataset.authMode === mode);
+        });
+
+        const signingIn = mode === "signin";
+        profileName.classList.toggle("auth-hidden", signingIn);
+        document.querySelector(".profile-name-label").classList.toggle("auth-hidden", signingIn);
+        document.querySelectorAll(".profile-extra-field").forEach(function (field) {
+            field.classList.toggle("auth-hidden", signingIn);
+        });
+        profileGrade.classList.toggle("auth-hidden", signingIn);
+        profileInterest.classList.toggle("auth-hidden", signingIn);
+        profileName.required = !signingIn;
+        profileGrade.required = !signingIn;
+        profileInterest.required = !signingIn;
+        profilePassword.autocomplete = signingIn ? "current-password" : "new-password";
+        profileTitle.textContent = signingIn ? "Welcome back" : "Create an account";
+        profileSubmit.textContent = signingIn ? "Sign in" : "Create account";
+        setAuthMessage("", false);
     }
 
     function updateProfileButton() {
-        const profile = getProfile();
-        if (!openProfileButton) {
+        if (!openProfileButton) return;
+        const name = currentProfile && currentProfile.name
+            ? currentProfile.name
+            : currentUser && currentUser.email
+                ? currentUser.email.split("@")[0]
+                : null;
+        openProfileButton.textContent = name ? "Hi, " + name : "Create account";
+        openProfileButton.classList.toggle("has-profile", Boolean(currentUser));
+    }
+
+    function applyProfile(profile) {
+        currentProfile = profile || null;
+        if (!profile) return;
+        if (profile.grade) gradeFilter.value = profile.grade;
+        if (profile.interest) {
+            selectedTheme = profile.interest;
+            document.querySelectorAll(".theme-card").forEach(function (themeButton) {
+                const active = themeButton.dataset.theme === selectedTheme;
+                themeButton.classList.toggle("active", active);
+                themeButton.setAttribute("aria-pressed", active ? "true" : "false");
+            });
+        }
+        displayOpportunities();
+    }
+
+    async function loadUserProfile() {
+        if (!supabase || !currentUser) {
+            currentProfile = null;
+            updateProfileButton();
             return;
         }
+        const metadata = currentUser.user_metadata || {};
+        applyProfile({
+            name: metadata.name || "",
+            grade: metadata.grade || "",
+            interest: metadata.interest || ""
+        });
+        updateProfileButton();
+    }
 
-        openProfileButton.textContent = profile
-            ? "Hi, " + profile.name
-            : "Create profile";
-        openProfileButton.classList.toggle("has-profile", Boolean(profile));
+    async function initSupabase() {
+        try {
+            const module = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+            supabase = module.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+            const sessionResult = await supabase.auth.getSession();
+            currentUser = sessionResult.data.session ? sessionResult.data.session.user : null;
+            await loadUserProfile();
+
+            supabase.auth.onAuthStateChange(function (_event, session) {
+                currentUser = session ? session.user : null;
+                if (currentUser) {
+                    loadUserProfile();
+                } else {
+                    currentProfile = null;
+                    updateProfileButton();
+                }
+            });
+        } catch (error) {
+            setAuthMessage("Secure sign-in could not load. Check your internet connection.", true);
+        }
     }
 
     function openProfileModal() {
-        if (!profileModal) {
-            return;
+        if (!profileModal) return;
+        if (currentUser) {
+            setAuthMode("signup");
+            profileTitle.textContent = "Edit your profile";
+            profileName.value = currentProfile ? currentProfile.name : "";
+            profileEmail.value = currentUser.email || "";
+            profileEmail.disabled = true;
+            profileGrade.value = currentProfile ? currentProfile.grade : "";
+            profileInterest.value = currentProfile ? currentProfile.interest : "";
+            profilePassword.value = "";
+            profilePassword.placeholder = "Leave blank to keep password";
+            profileReset.hidden = false;
+            profileSubmit.textContent = "Update profile";
+        } else {
+            profileEmail.disabled = false;
+            setAuthMode("signup");
+            profileReset.hidden = true;
         }
-
-        const profile = getProfile();
-        profileName.value = profile ? profile.name : "";
-        profileGrade.value = profile ? profile.grade : "";
-        profileInterest.value = profile ? profile.interest : "";
-        profileTitle.textContent = profile ? "Edit your profile" : "Create your profile";
-        document.querySelector(".profile-submit").textContent =
-            profile ? "Update profile" : "Save profile";
-        profileReset.hidden = !profile;
-
         profileModal.hidden = false;
         document.body.style.overflow = "hidden";
+        setAuthMessage("", false);
         profileName.focus();
     }
 
     function closeProfileModal() {
-        if (!profileModal) {
-            return;
-        }
-
+        if (!profileModal) return;
         profileModal.hidden = true;
         document.body.style.overflow = "";
     }
 
-    if (openProfileButton) {
-        openProfileButton.addEventListener("click", openProfileModal);
-    }
+    if (openProfileButton) openProfileButton.addEventListener("click", openProfileModal);
 
     document.querySelectorAll("[data-close-profile]").forEach(function (button) {
         button.addEventListener("click", closeProfileModal);
+    });
+
+    document.querySelectorAll("[data-auth-mode]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            setAuthMode(button.dataset.authMode);
+        });
     });
 
     document.addEventListener("keydown", function (event) {
@@ -439,41 +530,66 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (profileForm) {
-        profileForm.addEventListener("submit", function (event) {
+        profileForm.addEventListener("submit", async function (event) {
             event.preventDefault();
-
-            const profile = {
-                name: profileName.value.trim(),
-                grade: profileGrade.value,
-                interest: profileInterest.value
-            };
-
-            if (!profile.name) {
-                profileName.focus();
+            if (!supabase) {
+                setAuthMessage("Secure sign-in is still loading.", true);
                 return;
             }
 
-            localStorage.setItem("opportunityDoorProfile", JSON.stringify(profile));
-            updateProfileButton();
-            closeProfileModal();
+            profileSubmit.disabled = true;
+            setAuthMessage("Please wait...", false);
+            const email = profileEmail.value.trim();
+            const password = profilePassword.value;
 
-            gradeFilter.value = profile.grade || "all";
-            selectedTheme = profile.interest || "all";
-
-            document.querySelectorAll(".theme-card").forEach(function (themeButton) {
-                const active = themeButton.dataset.theme === selectedTheme;
-                themeButton.classList.toggle("active", active);
-                themeButton.setAttribute("aria-pressed", active ? "true" : "false");
-            });
-
-            displayOpportunities();
-            document.getElementById("themes").scrollIntoView({ behavior: "smooth" });
+            if (authMode === "signin") {
+                const result = await supabase.auth.signInWithPassword({ email, password });
+                if (result.error) setAuthMessage(result.error.message, true);
+                else closeProfileModal();
+            } else if (currentUser) {
+                const updates = {
+                    data: {
+                        name: profileName.value.trim(),
+                        grade: profileGrade.value,
+                        interest: profileInterest.value
+                    }
+                };
+                if (password) updates.password = password;
+                const result = await supabase.auth.updateUser(updates);
+                if (result.error) setAuthMessage(result.error.message, true);
+                else {
+                    currentUser = result.data.user;
+                    await loadUserProfile();
+                    closeProfileModal();
+                }
+            } else {
+                const profile = {
+                    name: profileName.value.trim(),
+                    grade: profileGrade.value,
+                    interest: profileInterest.value
+                };
+                const result = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: profile,
+                        emailRedirectTo: "https://khadeejasathak11-ops.github.io/Opportunitydoor/"
+                    }
+                });
+                if (result.error) setAuthMessage(result.error.message, true);
+                else if (result.data.session) closeProfileModal();
+                else setAuthMessage("Account created. Check your email to confirm it.", false);
+            }
+            profileSubmit.disabled = false;
         });
     }
 
     if (profileReset) {
-        profileReset.addEventListener("click", function () {
-            localStorage.removeItem("opportunityDoorProfile");
+        profileReset.addEventListener("click", async function () {
+            if (!supabase) return;
+            await supabase.auth.signOut();
+            currentUser = null;
+            currentProfile = null;
             updateProfileButton();
             closeProfileModal();
         });
@@ -505,6 +621,9 @@ document.addEventListener("DOMContentLoaded", function () {
             categoryFilter.value = button.dataset.category;
 
             updateSavedCount();
+            updateSavedCount();
+            updateProfileButton();
+            initSupabase();
             displayOpportunities();
 
             document.getElementById("opportunities").scrollIntoView({

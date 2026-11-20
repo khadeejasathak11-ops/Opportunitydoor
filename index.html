@@ -7,7 +7,7 @@
     <title>Opportunity Door | Discover Your Next Opportunity</title>
     <meta name="description" content="Discover scholarships, internships, research programs, volunteering, competitions, and leadership opportunities for students.">
     <link rel="canonical" href="https://khadeejasathak11-ops.github.io/Opportunitydoor/">
-    <link rel="stylesheet" href="style.css?v=profile">
+    <link rel="stylesheet" href="style.css?v=supabase-auth">
 </head>
 
 <body>
@@ -405,15 +405,26 @@
     <div class="profile-backdrop" data-close-profile></div>
     <div class="profile-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-title">
         <button type="button" class="profile-close" data-close-profile aria-label="Close profile">×</button>
-        <p class="eyebrow">YOUR OPPORTUNITY PROFILE</p>
-        <h2 id="profile-title">Create your profile</h2>
-        <p class="profile-subtitle">Personalize your path. This profile stays on this browser.</p>
+        <p class="eyebrow">SECURE OPPORTUNITY ACCOUNT</p>
+        <h2 id="profile-title">Create an account</h2>
+        <p class="profile-subtitle">Save your profile across devices and keep your shortlist synced.</p>
+
+        <div class="auth-mode-switch" aria-label="Choose account action">
+            <button type="button" class="auth-mode active" id="auth-signup-mode" data-auth-mode="signup">Create account</button>
+            <button type="button" class="auth-mode" id="auth-signin-mode" data-auth-mode="signin">Sign in</button>
+        </div>
 
         <form id="profile-form">
-            <label for="profile-name">Display name</label>
+            <label for="profile-name" class="profile-name-label">Display name</label>
             <input id="profile-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="What should we call you?" required>
 
-            <label for="profile-grade">High school grade</label>
+            <label for="profile-email">Email</label>
+            <input id="profile-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+
+            <label for="profile-password">Password</label>
+            <input id="profile-password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
+
+            <label for="profile-grade" class="profile-extra-field">High school grade</label>
             <select id="profile-grade" name="grade" required>
                 <option value="">Choose a grade</option>
                 <option value="9">9th grade</option>
@@ -422,7 +433,7 @@
                 <option value="12">12th grade</option>
             </select>
 
-            <label for="profile-interest">Favorite world</label>
+            <label for="profile-interest" class="profile-extra-field">Favorite world</label>
             <select id="profile-interest" name="interest" required>
                 <option value="">Choose an interest</option>
                 <option value="biology-health">Biology & Health</option>
@@ -434,8 +445,9 @@
                 <option value="general">General Opportunities</option>
             </select>
 
-            <button type="submit" class="primary-button profile-submit">Save profile</button>
-            <button type="button" class="profile-reset" id="profile-reset" hidden>Remove profile</button>
+            <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+            <button type="submit" class="primary-button profile-submit">Create account</button>
+            <button type="button" class="profile-reset" id="profile-reset" hidden>Sign out</button>
         </form>
     </div>
 </div>
@@ -444,8 +456,8 @@
     <p>© 2026 Opportunity Door. Discover. Explore. Open Doors.</p>
 </footer>
 
-<script src="opportunities.js?v=profile"></script>
-<script src="script.js?v=profile"></script>
+<script src="opportunities.js?v=supabase-auth"></script>
+<script src="script.js?v=supabase-auth"></script>
 
 </body>
 </html>
