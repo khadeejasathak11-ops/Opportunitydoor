@@ -621,9 +621,6 @@ document.addEventListener("DOMContentLoaded", function () {
             categoryFilter.value = button.dataset.category;
 
             updateSavedCount();
-            updateSavedCount();
-            updateProfileButton();
-            initSupabase();
             displayOpportunities();
 
             document.getElementById("opportunities").scrollIntoView({
@@ -664,6 +661,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.setAttribute("aria-pressed", "true");
             }
 
+            updateSavedCount();
+            updateProfileButton();
+            initSupabase();
             displayOpportunities();
 
             document.getElementById("opportunities").scrollIntoView({
