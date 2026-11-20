@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function saveSavedIds() {
         localStorage.setItem("opportunityDoorSaved", JSON.stringify(savedIds));
         updateSavedCount();
+        updateProfileButton();
     }
 
     // Check that opportunity data loaded
@@ -363,6 +364,118 @@ document.addEventListener("DOMContentLoaded", function () {
         savedNav.addEventListener("click", function (event) {
             event.preventDefault();
             showSavedShortlist();
+        });
+    }
+
+    const profileModal = document.getElementById("profile-modal");
+    const openProfileButton = document.getElementById("open-profile");
+    const profileForm = document.getElementById("profile-form");
+    const profileName = document.getElementById("profile-name");
+    const profileGrade = document.getElementById("profile-grade");
+    const profileInterest = document.getElementById("profile-interest");
+    const profileReset = document.getElementById("profile-reset");
+    const profileTitle = document.getElementById("profile-title");
+
+    function getProfile() {
+        try {
+            return JSON.parse(localStorage.getItem("opportunityDoorProfile") || "null");
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function updateProfileButton() {
+        const profile = getProfile();
+        if (!openProfileButton) {
+            return;
+        }
+
+        openProfileButton.textContent = profile
+            ? "Hi, " + profile.name
+            : "Create profile";
+        openProfileButton.classList.toggle("has-profile", Boolean(profile));
+    }
+
+    function openProfileModal() {
+        if (!profileModal) {
+            return;
+        }
+
+        const profile = getProfile();
+        profileName.value = profile ? profile.name : "";
+        profileGrade.value = profile ? profile.grade : "";
+        profileInterest.value = profile ? profile.interest : "";
+        profileTitle.textContent = profile ? "Edit your profile" : "Create your profile";
+        document.querySelector(".profile-submit").textContent =
+            profile ? "Update profile" : "Save profile";
+        profileReset.hidden = !profile;
+
+        profileModal.hidden = false;
+        document.body.style.overflow = "hidden";
+        profileName.focus();
+    }
+
+    function closeProfileModal() {
+        if (!profileModal) {
+            return;
+        }
+
+        profileModal.hidden = true;
+        document.body.style.overflow = "";
+    }
+
+    if (openProfileButton) {
+        openProfileButton.addEventListener("click", openProfileModal);
+    }
+
+    document.querySelectorAll("[data-close-profile]").forEach(function (button) {
+        button.addEventListener("click", closeProfileModal);
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && profileModal && !profileModal.hidden) {
+            closeProfileModal();
+        }
+    });
+
+    if (profileForm) {
+        profileForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const profile = {
+                name: profileName.value.trim(),
+                grade: profileGrade.value,
+                interest: profileInterest.value
+            };
+
+            if (!profile.name) {
+                profileName.focus();
+                return;
+            }
+
+            localStorage.setItem("opportunityDoorProfile", JSON.stringify(profile));
+            updateProfileButton();
+            closeProfileModal();
+
+            gradeFilter.value = profile.grade || "all";
+            selectedTheme = profile.interest || "all";
+
+            document.querySelectorAll(".theme-card").forEach(function (themeButton) {
+                const active = themeButton.dataset.theme === selectedTheme;
+                themeButton.classList.toggle("active", active);
+                themeButton.setAttribute("aria-pressed", active ? "true" : "false");
+            });
+
+            displayOpportunities();
+            document.getElementById("themes").scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    if (profileReset) {
+        profileReset.addEventListener("click", function () {
+            localStorage.removeItem("opportunityDoorProfile");
+            updateProfileButton();
+            closeProfileModal();
         });
     }
 

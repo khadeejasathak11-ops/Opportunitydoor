@@ -7,7 +7,7 @@
     <title>Opportunity Door | Discover Your Next Opportunity</title>
     <meta name="description" content="Discover scholarships, internships, research programs, volunteering, competitions, and leadership opportunities for students.">
     <link rel="canonical" href="https://khadeejasathak11-ops.github.io/Opportunitydoor/">
-    <link rel="stylesheet" href="style.css?v=shortlist">
+    <link rel="stylesheet" href="style.css?v=profile">
 </head>
 
 <body>
@@ -24,6 +24,7 @@
         <a href="#opportunities">Explore</a>
         <a href="#saved" id="saved-nav">Saved <span id="saved-count">0</span></a>
         <a href="#about">About</a>
+        <button type="button" class="profile-button" id="open-profile">Create profile</button>
     </nav>
 </header>
 
@@ -400,12 +401,51 @@
 
 </main>
 
+<div class="profile-modal" id="profile-modal" hidden>
+    <div class="profile-backdrop" data-close-profile></div>
+    <div class="profile-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+        <button type="button" class="profile-close" data-close-profile aria-label="Close profile">×</button>
+        <p class="eyebrow">YOUR OPPORTUNITY PROFILE</p>
+        <h2 id="profile-title">Create your profile</h2>
+        <p class="profile-subtitle">Personalize your path. This profile stays on this browser.</p>
+
+        <form id="profile-form">
+            <label for="profile-name">Display name</label>
+            <input id="profile-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="What should we call you?" required>
+
+            <label for="profile-grade">High school grade</label>
+            <select id="profile-grade" name="grade" required>
+                <option value="">Choose a grade</option>
+                <option value="9">9th grade</option>
+                <option value="10">10th grade</option>
+                <option value="11">11th grade</option>
+                <option value="12">12th grade</option>
+            </select>
+
+            <label for="profile-interest">Favorite world</label>
+            <select id="profile-interest" name="interest" required>
+                <option value="">Choose an interest</option>
+                <option value="biology-health">Biology & Health</option>
+                <option value="technology">Technology</option>
+                <option value="stem-engineering">STEM & Engineering</option>
+                <option value="business">Business</option>
+                <option value="arts-humanities">Arts & Humanities</option>
+                <option value="leadership-community">Leadership & Community</option>
+                <option value="general">General Opportunities</option>
+            </select>
+
+            <button type="submit" class="primary-button profile-submit">Save profile</button>
+            <button type="button" class="profile-reset" id="profile-reset" hidden>Remove profile</button>
+        </form>
+    </div>
+</div>
+
 <footer>
     <p>© 2026 Opportunity Door. Discover. Explore. Open Doors.</p>
 </footer>
 
-<script src="opportunities.js?v=shortlist"></script>
-<script src="script.js?v=shortlist"></script>
+<script src="opportunities.js?v=profile"></script>
+<script src="script.js?v=profile"></script>
 
 </body>
 </html>
