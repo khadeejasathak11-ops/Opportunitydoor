@@ -1081,3 +1081,235 @@ nav a:hover::after {
         transition: none !important;
     }
 }
+
+/* PREMIUM HOMEPAGE PASS */
+
+.navbar,
+.hero,
+.categories,
+.themes-section,
+.opportunities-section,
+.about-section,
+footer {
+    width: 100%;
+}
+
+.navbar {
+    padding-left: max(5%, calc((100% - 1180px) / 2));
+    padding-right: max(5%, calc((100% - 1180px) / 2));
+    box-shadow: 0 1px 0 rgba(36, 33, 58, 0.04);
+}
+
+.hero {
+    min-height: 560px;
+    padding-left: max(7%, calc((100% - 1180px) / 2));
+    padding-right: max(7%, calc((100% - 1180px) / 2));
+    background:
+        radial-gradient(circle at 82% 48%, rgba(165, 128, 204, 0.16), transparent 15rem),
+        radial-gradient(circle at 18% 15%, rgba(113, 93, 199, 0.08), transparent 18rem),
+        linear-gradient(135deg, #f8f7ff 0%, #fff9fc 100%);
+}
+
+.hero h1 {
+    max-width: 700px;
+    font-size: clamp(52px, 6vw, 76px);
+    letter-spacing: -3.8px;
+}
+
+.hero h1 span {
+    background: linear-gradient(90deg, #6656c7, #b37bac);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.eyebrow {
+    color: #6656c7;
+    font-size: 12px;
+}
+
+.hero-description {
+    color: #5f5d73;
+    font-size: 18px;
+    line-height: 1.75;
+}
+
+.primary-button {
+    min-height: 52px;
+    padding: 17px 27px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7162cf 0%, #5140a5 100%);
+    box-shadow: 0 14px 30px rgba(81, 64, 165, 0.24);
+}
+
+.primary-button:hover {
+    box-shadow: 0 18px 34px rgba(81, 64, 165, 0.32);
+}
+
+.hero-decoration {
+    background:
+        radial-gradient(circle at 68% 24%, rgba(255, 255, 255, 1), transparent 12%),
+        linear-gradient(145deg, #efecff 0%, #fff0f6 100%);
+    box-shadow:
+        0 30px 70px rgba(73, 51, 111, 0.12),
+        inset 0 0 0 1px rgba(255,255,255,0.8);
+}
+
+.categories,
+.themes-section,
+.opportunities-section {
+    padding-left: max(7%, calc((100% - 1180px) / 2));
+    padding-right: max(7%, calc((100% - 1180px) / 2));
+}
+
+.category-grid {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.category-card {
+    min-height: 118px;
+    padding: 19px 14px;
+    text-align: center;
+    border-radius: 14px;
+}
+
+.category-card span {
+    margin-top: 10px;
+}
+
+.category-card:hover,
+.category-card.active {
+    transform: translateY(-5px);
+}
+
+.theme-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.theme-card {
+    min-height: 205px;
+}
+
+.theme-card:last-child {
+    grid-column: span 1;
+}
+
+.search-area input {
+    border: 1px solid #dfdde9;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 10px 30px rgba(36, 33, 58, 0.05);
+}
+
+.filter-panel {
+    border: 1px solid #e5e3ef;
+    background: rgba(255,255,255,0.96);
+}
+
+.filter-group select {
+    height: 48px;
+    border: 1px solid #e5e3ed;
+    background: #fff;
+}
+
+.opportunity-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.opportunity-card {
+    position: relative;
+    min-height: 365px;
+    overflow: hidden;
+    border: 1px solid #e7e5ef;
+    background: rgba(255,255,255,0.98);
+    box-shadow: 0 12px 32px rgba(36, 33, 58, 0.055);
+}
+
+.opportunity-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #7162cf, #c78db2);
+    opacity: 0;
+    transition: opacity 180ms ease;
+}
+
+.opportunity-card:hover::before {
+    opacity: 1;
+}
+
+.opportunity-card:hover {
+    border-color: #d6d1e8;
+    box-shadow: 0 18px 42px rgba(36, 33, 58, 0.10);
+}
+
+.opportunity-category {
+    align-self: flex-start;
+    background: #f2f0ff;
+    color: #6254b3;
+}
+
+.opportunity-card h3 {
+    font-size: 19px;
+}
+
+.card-description {
+    -webkit-line-clamp: 4;
+}
+
+.opportunity-card a {
+    font-size: 14px;
+}
+
+.about-section {
+    max-width: 820px;
+}
+
+.about-section h2 {
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 1050px) {
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 750px) {
+    .hero {
+        min-height: 520px;
+        padding-left: 7%;
+        padding-right: 7%;
+    }
+
+    .hero h1 {
+        font-size: clamp(44px, 13vw, 58px);
+        letter-spacing: -2.2px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .theme-grid,
+    .opportunity-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .opportunity-card {
+        min-height: 320px;
+    }
+}
