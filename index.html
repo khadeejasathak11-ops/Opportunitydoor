@@ -7,7 +7,7 @@
     <title>Opportunity Door | Discover Your Next Opportunity</title>
     <meta name="description" content="Discover scholarships, internships, research programs, volunteering, competitions, and leadership opportunities for students.">
     <link rel="canonical" href="https://khadeejasathak11-ops.github.io/Opportunitydoor/">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=dashboard">
 </head>
 
 <body>
@@ -41,20 +41,29 @@
                 competitions, and real-world adventures—all in one place.
             </p>
 
-            <a href="#opportunities" class="primary-button">
+            <a href="#opportunities" class="primary-button" id="start-exploring">
                 Start Exploring →
             </a>
         </div>
 
-        <div class="hero-decoration">
-            <div class="door-symbol" aria-hidden="true">
-                <span class="door-sparkle sparkle-one">✦</span>
-                <span class="door-sparkle sparkle-two">✧</span>
-                <span class="door-sparkle sparkle-three">✦</span>
-                <span class="cute-door">☰</span>
-                <span class="door-star">✦</span>
+        <div class="hero-dashboard" aria-label="Opportunity discovery summary">
+            <div class="dashboard-orbit" aria-hidden="true">
+                <span class="orbit-ring orbit-ring-one"></span>
+                <span class="orbit-ring orbit-ring-two"></span>
+                <span class="orbit-dot orbit-dot-one"></span>
+                <span class="orbit-dot orbit-dot-two"></span>
+                <span class="dashboard-mark">✦</span>
             </div>
-            <p>Your next adventure</p>
+            <div class="dashboard-card">
+                <p class="dashboard-label"><span></span> FIELD GUIDE</p>
+                <strong>Find your next chapter</strong>
+                <small>New opportunities are added regularly.</small>
+            </div>
+            <div class="dashboard-card dashboard-card-small">
+                <p class="dashboard-label"><span></span> START HERE</p>
+                <strong>Explore 7 worlds</strong>
+                <small>Match by interest, category, and grade.</small>
+            </div>
         </div>
     </section>
 
@@ -66,27 +75,27 @@
 
         <div class="category-grid">
 
-            <button class="category-card" data-category="scholarships">
+            <button type="button" class="category-card" data-category="scholarships" aria-pressed="false">
                 🎓 <span>Scholarships</span>
             </button>
 
-            <button class="category-card" data-category="internships">
+            <button type="button" class="category-card" data-category="internships" aria-pressed="false">
                 💼 <span>Internships & Jobs</span>
             </button>
 
-            <button class="category-card" data-category="research">
+            <button type="button" class="category-card" data-category="research" aria-pressed="false">
                 🔬 <span>Research</span>
             </button>
 
-            <button class="category-card" data-category="volunteering">
+            <button type="button" class="category-card" data-category="volunteering" aria-pressed="false">
                 💛 <span>Volunteering</span>
             </button>
 
-            <button class="category-card" data-category="competitions">
+            <button type="button" class="category-card" data-category="competitions" aria-pressed="false">
                 🏆 <span>Competitions</span>
             </button>
 
-            <button class="category-card" data-category="leadership">
+            <button type="button" class="category-card" data-category="leadership" aria-pressed="false">
                 🌟 <span>Leadership</span>
             </button>
 
@@ -110,7 +119,7 @@
 
         <div class="theme-grid">
 
-            <button class="theme-card" data-theme="biology-health">
+            <button type="button" class="theme-card" data-theme="biology-health" aria-pressed="false">
                 <span class="theme-icon">🧬</span>
                 <span class="theme-title">Biology & Health</span>
                 <span class="theme-description">
@@ -118,7 +127,7 @@
                 </span>
             </button>
 
-            <button class="theme-card" data-theme="technology">
+            <button type="button" class="theme-card" data-theme="technology" aria-pressed="false">
                 <span class="theme-icon">💻</span>
                 <span class="theme-title">Technology</span>
                 <span class="theme-description">
@@ -126,7 +135,7 @@
                 </span>
             </button>
 
-            <button class="theme-card" data-theme="stem-engineering">
+            <button type="button" class="theme-card" data-theme="stem-engineering" aria-pressed="false">
                 <span class="theme-icon">🔭</span>
                 <span class="theme-title">STEM & Engineering</span>
                 <span class="theme-description">
@@ -134,7 +143,7 @@
                 </span>
             </button>
 
-            <button class="theme-card" data-theme="business">
+            <button type="button" class="theme-card" data-theme="business" aria-pressed="false">
                 <span class="theme-icon">📈</span>
                 <span class="theme-title">Business</span>
                 <span class="theme-description">
@@ -142,7 +151,7 @@
                 </span>
             </button>
 
-            <button class="theme-card" data-theme="arts-humanities">
+            <button type="button" class="theme-card" data-theme="arts-humanities" aria-pressed="false">
                 <span class="theme-icon">🎨</span>
                 <span class="theme-title">Arts & Humanities</span>
                 <span class="theme-description">
@@ -150,7 +159,7 @@
                 </span>
             </button>
 
-            <button class="theme-card" data-theme="leadership-community">
+            <button type="button" class="theme-card" data-theme="leadership-community" aria-pressed="false">
                 <span class="theme-icon">🌍</span>
                 <span class="theme-title">Leadership & Community</span>
                 <span class="theme-description">
@@ -158,7 +167,7 @@
                 </span>
             </button>
 
-            <button class="theme-card" data-theme="general">
+            <button type="button" class="theme-card" data-theme="general" aria-pressed="false">
                 <span class="theme-icon">🌟</span>
                 <span class="theme-title">General Opportunities</span>
                 <span class="theme-description">
@@ -359,8 +368,8 @@
     <p>© 2026 Opportunity Door. Discover. Explore. Open Doors.</p>
 </footer>
 
-<script src="opportunities.js"></script>
-<script src="script.js"></script>
+<script src="opportunities.js?v=dashboard"></script>
+<script src="script.js?v=dashboard"></script>
 
 </body>
 </html>
