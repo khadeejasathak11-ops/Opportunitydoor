@@ -1800,6 +1800,99 @@ body {
     transform: rotate(-8deg);
 }
 
+.door-symbol {
+    position: relative;
+    width: 160px;
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-family: inherit;
+    font-size: initial;
+    transform: none;
+    text-shadow: none;
+}
+
+.cute-door {
+    position: relative;
+    z-index: 2;
+    width: 112px;
+    height: 150px;
+    display: grid;
+    place-items: start center;
+    padding-top: 22px;
+    border: 5px solid #fff;
+    border-radius: 48px 48px 16px 16px;
+    background: linear-gradient(145deg, #b39cdd, #8068b6);
+    color: #fff;
+    font-size: 42px;
+    line-height: 1;
+    box-shadow:
+        0 9px 0 #66508f,
+        0 15px 24px rgba(89,67,138,0.24),
+        inset 8px 8px 16px rgba(255,255,255,0.22);
+}
+
+.cute-door::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    width: 12px;
+    height: 12px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #ffd5e3;
+    box-shadow: 0 3px 0 #b58da6;
+    transform: translateX(-50%);
+}
+
+.door-heart {
+    position: absolute;
+    z-index: 3;
+    right: 12px;
+    top: 35px;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #f6b4ca;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    box-shadow:
+        0 5px 0 #b68fa7,
+        0 8px 16px rgba(89,67,138,0.16);
+}
+
+.door-sparkle {
+    position: absolute;
+    z-index: 4;
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    text-shadow: 0 3px 0 #beaade;
+}
+
+.sparkle-one {
+    left: 5px;
+    top: 34px;
+}
+
+.sparkle-two {
+    right: 1px;
+    bottom: 12px;
+    color: #dca8c1;
+}
+
+.sparkle-three {
+    left: 25px;
+    bottom: 1px;
+    font-size: 16px;
+}
+
 .categories,
 .themes-section,
 .opportunities-section {
