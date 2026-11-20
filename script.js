@@ -17,6 +17,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const clearFiltersButton = document.getElementById("clear-filters");
 
     let selectedTheme = "all";
+    let showSavedOnly = false;
+    let savedIds = [];
+
+    try {
+        savedIds = JSON.parse(localStorage.getItem("opportunityDoorSaved") || "[]");
+        if (!Array.isArray(savedIds)) {
+            savedIds = [];
+        }
+    } catch (error) {
+        savedIds = [];
+    }
+
+    function updateSavedCount() {
+        const savedCount = document.getElementById("saved-count");
+        if (savedCount) {
+            savedCount.textContent = savedIds.length;
+        }
+    }
+
+    function saveSavedIds() {
+        localStorage.setItem("opportunityDoorSaved", JSON.stringify(savedIds));
+        updateSavedCount();
+    }
 
     // Check that opportunity data loaded
     if (typeof opportunities === "undefined") {
@@ -90,6 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const filtered = opportunities.filter(function (item) {
 
+            const matchesSaved = !showSavedOnly || savedIds.includes(item.id);
+
             const searchableText = [
                 item.title,
                 item.provider,
@@ -138,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const matchesDate = matchesDeadline(item, deadline);
 
             return (
+                matchesSaved &&
                 matchesSearch &&
                 matchesCategory &&
                 matchesTheme &&
@@ -159,11 +185,18 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show message if nothing matches
         if (filtered.length === 0) {
 
+            const noResultsTitle = showSavedOnly
+                ? "No saved opportunities yet"
+                : "No matching opportunities found";
+            const noResultsText = showSavedOnly
+                ? "Save opportunities from their cards and they will appear here."
+                : "Try changing your filters or clearing your search.";
+
             opportunityList.innerHTML =
                 '<div class="no-results">' +
                     '<div class="no-results-icon">✦</div>' +
-                    '<h3>No matching opportunities found</h3>' +
-                    '<p>Try changing your filters or clearing your search.</p>' +
+                    '<h3>' + noResultsTitle + '</h3>' +
+                    '<p>' + noResultsText + '</p>' +
                     '<button class="clear-button" id="no-results-clear">' +
                         'Clear all filters' +
                     '</button>' +
@@ -184,13 +217,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     return "Grade " + g;
                 })
                 .join(", ");
+            const isSaved = savedIds.includes(item.id);
 
             return (
                 '<article class="opportunity-card">' +
 
-                    '<span class="opportunity-category">' +
-                        item.category +
-                    '</span>' +
+                    '<div class="card-header">' +
+                        '<span class="opportunity-category">' +
+                            item.category +
+                        '</span>' +
+                        '<button type="button" class="save-opportunity-button' +
+                            (isSaved ? " saved" : "") +
+                            '" data-save-id="' + encodeURIComponent(item.id) +
+                            '" aria-pressed="' + (isSaved ? "true" : "false") +
+                            '" aria-label="' + (isSaved ? "Remove from saved opportunities" : "Save opportunity") +
+                            '"><span aria-hidden="true">' + (isSaved ? "♥" : "♡") + '</span></button>' +
+                    '</div>' +
 
                     '<h3>' + item.title + '</h3>' +
 
@@ -224,6 +266,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }).join("");
 
+        opportunityList.querySelectorAll(".save-opportunity-button").forEach(function (button) {
+            button.addEventListener("click", function () {
+                const id = decodeURIComponent(button.dataset.saveId);
+
+                if (savedIds.includes(id)) {
+                    savedIds = savedIds.filter(function (savedId) {
+                        return savedId !== id;
+                    });
+                } else {
+                    savedIds.push(id);
+                }
+
+                saveSavedIds();
+                displayOpportunities();
+            });
+        });
+
     }
 
 
@@ -242,6 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
         deadlineFilter.value = "all";
 
         selectedTheme = "all";
+        showSavedOnly = false;
 
         document.querySelectorAll(".theme-card").forEach(function (button) {
             button.classList.remove("active");
@@ -280,6 +340,32 @@ document.addEventListener("DOMContentLoaded", function () {
     // Clear filters button
     clearFiltersButton.addEventListener("click", clearFilters);
 
+    function showSavedShortlist() {
+        showSavedOnly = true;
+        clearFilters();
+        showSavedOnly = true;
+        displayOpportunities();
+
+        const opportunitiesSection = document.getElementById("opportunities");
+        if (opportunitiesSection) {
+            opportunitiesSection.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+
+    const showSavedButton = document.getElementById("show-saved");
+    const savedNav = document.getElementById("saved-nav");
+
+    if (showSavedButton) {
+        showSavedButton.addEventListener("click", showSavedShortlist);
+    }
+
+    if (savedNav) {
+        savedNav.addEventListener("click", function (event) {
+            event.preventDefault();
+            showSavedShortlist();
+        });
+    }
+
 
     // ======================================
     // CATEGORY BUTTONS
@@ -305,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             categoryFilter.value = button.dataset.category;
 
+            updateSavedCount();
             displayOpportunities();
 
             document.getElementById("opportunities").scrollIntoView({
