@@ -460,8 +460,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function initSupabase() {
         try {
-            const module = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
-            supabase = module.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+            if (!window.supabase) {
+                throw new Error("Supabase library did not load");
+            }
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
             const sessionResult = await supabase.auth.getSession();
             currentUser = sessionResult.data.session ? sessionResult.data.session.user : null;
             await loadUserProfile();
