@@ -247,6 +247,10 @@ document.addEventListener("DOMContentLoaded", function () {
             button.classList.remove("active");
         });
 
+        document.querySelectorAll(".category-card").forEach(function (button) {
+            button.classList.remove("active");
+        });
+
         displayOpportunities();
     }
 
@@ -288,6 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".theme-card").forEach(function (themeButton) {
                 themeButton.classList.remove("active");
             });
+
+            document.querySelectorAll(".category-card").forEach(function (categoryButton) {
+                categoryButton.classList.remove("active");
+            });
+            button.classList.add("active");
 
             categoryFilter.value = button.dataset.category;
 
