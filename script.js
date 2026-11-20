@@ -663,9 +663,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.setAttribute("aria-pressed", "true");
             }
 
-            updateSavedCount();
-            updateProfileButton();
-            initSupabase();
             displayOpportunities();
 
             document.getElementById("opportunities").scrollIntoView({
@@ -681,6 +678,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // INITIAL LOAD
     // ======================================
 
+    updateSavedCount();
+    updateProfileButton();
+    initSupabase();
     displayOpportunities();
 
     console.log("Opportunity Door loaded successfully!");
