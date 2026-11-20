@@ -1924,3 +1924,212 @@ body {
 footer {
     background: linear-gradient(135deg, #625780, #4b4665);
 }
+
+/* INTERACTIVE FROSTED GAME WORLD */
+
+body {
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(171, 153, 222, 0.34), transparent 24rem),
+        radial-gradient(circle at 88% 38%, rgba(205, 190, 238, 0.42), transparent 22rem),
+        radial-gradient(circle at 72% 82%, rgba(182, 211, 221, 0.20), transparent 25rem),
+        linear-gradient(135deg, #f8f5ff 0%, #fdfcff 48%, #f2eef9 100%);
+    background-attachment: fixed;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    z-index: -1;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.58);
+    background: rgba(190, 174, 228, 0.12);
+    box-shadow:
+        inset 18px 18px 35px rgba(255,255,255,0.38),
+        0 24px 70px rgba(112, 95, 158, 0.10);
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+body::before {
+    top: 15%;
+    left: -150px;
+    animation: orb-drift 12s ease-in-out infinite;
+}
+
+body::after {
+    right: -90px;
+    bottom: 8%;
+    width: 190px;
+    height: 190px;
+    animation: orb-drift 9s ease-in-out infinite reverse;
+}
+
+@keyframes orb-drift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(20px, -28px, 0) scale(1.08); }
+}
+
+.navbar {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.82),
+        rgba(238,232,252,0.58)
+    );
+    border: 1px solid rgba(255,255,255,0.88);
+    box-shadow:
+        0 14px 38px rgba(92,75,134,0.11),
+        inset 1px 1px 1px rgba(255,255,255,0.92);
+}
+
+.hero {
+    isolation: isolate;
+    background:
+        linear-gradient(rgba(255,255,255,0.42) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.42) 1px, transparent 1px),
+        radial-gradient(circle at 78% 44%, rgba(174,156,216,0.42), transparent 18rem),
+        linear-gradient(135deg, rgba(238,233,251,0.74), rgba(255,255,255,0.74) 58%, rgba(221,213,242,0.76));
+    background-size: 38px 38px, 38px 38px, auto, auto;
+}
+
+.hero::before,
+.hero::after {
+    z-index: -1;
+    backdrop-filter: blur(12px);
+}
+
+.hero-decoration,
+.category-card,
+.theme-card,
+.opportunity-card,
+.filter-panel,
+.search-area input,
+#opportunity-details,
+.details-info div,
+.navbar,
+.eyebrow {
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    backdrop-filter: blur(20px) saturate(120%);
+}
+
+.hero-decoration {
+    background:
+        radial-gradient(circle at 65% 20%, rgba(255,255,255,0.92), transparent 14%),
+        linear-gradient(145deg, rgba(244,240,255,0.56), rgba(255,255,255,0.34));
+    border: 1px solid rgba(255,255,255,0.78);
+    box-shadow:
+        18px 24px 0 rgba(155,135,208,0.09),
+        30px 44px 80px rgba(92,75,134,0.16),
+        inset 10px 10px 25px rgba(255,255,255,0.45),
+        inset -10px -10px 30px rgba(155,135,208,0.08);
+}
+
+.category-card,
+.theme-card,
+.opportunity-card,
+.filter-panel,
+#opportunity-details {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.58), rgba(239,234,250,0.34));
+    border: 1px solid rgba(255,255,255,0.76);
+    box-shadow:
+        0 8px 0 rgba(205,195,229,0.72),
+        0 22px 45px rgba(92,75,134,0.10),
+        inset 1px 1px 2px rgba(255,255,255,0.82);
+}
+
+.category-card:hover,
+.theme-card:hover,
+.opportunity-card:hover {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.74), rgba(233,226,248,0.48));
+    box-shadow:
+        0 13px 0 rgba(190,178,220,0.74),
+        0 32px 55px rgba(92,75,134,0.16),
+        inset 1px 1px 3px rgba(255,255,255,0.92);
+}
+
+.theme-card {
+    transition:
+        transform 220ms cubic-bezier(.2,.8,.2,1),
+        box-shadow 220ms ease,
+        background 220ms ease;
+}
+
+.theme-card:hover {
+    transform: translateY(-12px) rotateX(4deg) rotateY(-2deg) scale(1.015);
+}
+
+.category-card:active,
+.theme-card:active,
+.opportunity-card:active,
+.primary-button:active {
+    filter: brightness(0.98);
+}
+
+.theme-icon,
+.opportunity-category,
+.clear-button,
+.filter-group select {
+    background: rgba(255,255,255,0.46);
+    border: 1px solid rgba(255,255,255,0.68);
+    box-shadow:
+        0 4px 0 rgba(205,195,229,0.72),
+        inset 1px 1px 2px rgba(255,255,255,0.78);
+    backdrop-filter: blur(12px);
+}
+
+.search-area input {
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.72), rgba(245,240,255,0.48));
+    border: 1px solid rgba(255,255,255,0.82);
+    box-shadow:
+        0 8px 0 rgba(211,203,232,0.72),
+        0 18px 38px rgba(92,75,134,0.07),
+        inset 1px 1px 2px rgba(255,255,255,0.88);
+}
+
+.opportunities-section {
+    background:
+        radial-gradient(circle at 12% 24%, rgba(176,158,216,0.16), transparent 24rem),
+        rgba(242,238,250,0.54);
+}
+
+.details-info div {
+    background: rgba(255,255,255,0.42);
+    border: 1px solid rgba(255,255,255,0.70);
+    box-shadow:
+        0 5px 0 rgba(211,203,232,0.64),
+        inset 1px 1px 2px rgba(255,255,255,0.82);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-content,
+    .hero-decoration,
+    .categories,
+    .themes-section,
+    .opportunities-section,
+    .about-section {
+        animation: world-enter 700ms cubic-bezier(.2,.75,.25,1) both;
+    }
+
+    .hero-decoration {
+        animation:
+            float-door 5s ease-in-out infinite,
+            world-enter 700ms cubic-bezier(.2,.75,.25,1) both;
+    }
+
+    @keyframes world-enter {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}

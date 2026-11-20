@@ -352,6 +352,31 @@ document.addEventListener("DOMContentLoaded", function () {
     // INITIAL LOAD
     // ======================================
 
+    const pointerCards = document.querySelectorAll(
+        ".category-card, .theme-card"
+    );
+
+    pointerCards.forEach(function (card) {
+        card.addEventListener("pointermove", function (event) {
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                return;
+            }
+
+            const rect = card.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+            card.style.transform =
+                "perspective(900px) rotateX(" + (-y * 5) +
+                "deg) rotateY(" + (x * 5) +
+                "deg) translateY(-7px)";
+        });
+
+        card.addEventListener("pointerleave", function () {
+            card.style.transform = "";
+        });
+    });
+
     displayOpportunities();
 
     console.log("Opportunity Door loaded successfully!");
